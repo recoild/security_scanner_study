@@ -1,20 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Scan Result</title>
+    <title>Scan Results</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        let refreshInterval;
+
+        function setRefreshInterval() {
+            // 드롭다운에서 선택한 값을 가져옴
+            const interval = document.getElementById("refresh-interval").value;
+
+            // 기존의 타이머를 제거
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+
+            // 선택한 값이 0이 아니면 주기적으로 새로고침
+            if (interval != "0") {
+                refreshInterval = setInterval(() => {
+                    document.getElementById("scan-form").submit(); // 스캔 요청 폼을 제출
+                }, interval * 1000); // 초 단위로 변환
+            }
+        }
+    </script>
 </head>
 <body>
-    <h1>Scan Result</h1>
-    <ul>
-        {% for vuln in vulnerabilities %}
-        <li>
-            <strong>ID:</strong> {{ vuln['VulnerabilityID'] }} <br>
-            <strong>Severity:</strong> {{ vuln['Severity'] }} <br>
-            <strong>Title:</strong> {{ vuln['Title'] }} <br>
-            <strong>Description:</strong> {{ vuln['Description'] }} <br>
-        </li>
-        {% endfor %}
-    </ul>
-    <a href="/">Scan another image</a>
+    <h1>Scan Results</h1>
+
+    <!-- 드롭다운 메뉴 -->
+    <label for="refresh-interval">Auto refresh interval: </label>
+    <select id="refresh-interval" onchange="setRefreshInterval()">
+        <option value="0">No Auto Refresh</option>
+        <option value="5">5 seconds</option>
+        <option value="10">10 seconds</option>
+        <option value="15">15 seconds</option>
+    </select>
+
+    <form id="scan-form" action="/scan" method="POST">
+        <!-- 여기서 여러 이미지를 선택할 수 있는 폼 -->
+        <input type="hidden" name="docker_image" value="example_image1">
+        <input type="hidden" name="docker_image" value="example_image2">
+        <input type="submit" value="Scan Again">
+    </form>
+
+    <!-- Vulnerabilities 결과 출력 -->
+    {% for docker_image, vulnerabilities in all_vulnerabilities.items() %}
+        <h2>{{ docker_image }}</h2>
+        {% if vulnerabilities %}
+            <ul>
+                {% for vulnerability in vulnerabilities %}
+                    <li>
+                        <strong>{{ vulnerability['VulnerabilityID'] }}</strong> - {{ vulnerability['Severity'] }}
+                        <p>{{ vulnerability['Title'] }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No vulnerabilities found.</p>
+        {% endif %}
+    {% endfor %}
 </body>
 </html>

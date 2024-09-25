@@ -3,12 +3,46 @@
 <head>
     <title>Docker Image Scanner</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const addButton = document.getElementById("add-button");
+            const scanButton = document.getElementById("scan-button");
+            const inputContainer = document.getElementById("input-container");
+
+            // Add new input field for GitHub URL
+            addButton.addEventListener("click", function(e) {
+                e.preventDefault();
+                const newInput = document.createElement("input");
+                newInput.type = "text";
+                newInput.name = "docker_image";
+                newInput.placeholder = "Enter GitHub URL";
+                newInput.required = true;
+                inputContainer.appendChild(newInput);
+            });
+
+            // Submit form with all input values
+            scanButton.addEventListener("click", function(e) {
+                e.preventDefault();
+                const form = document.getElementById("docker-form");
+                form.submit();
+            });
+        });
+    </script>
 </head>
 <body>
     <h1>Docker Image Security Scanner</h1>
-    <form action="/scan" method="POST">
-        <input type="text" name="docker_image" placeholder="Enter Docker image name or URL" required>
-        <button type="submit">Scan Image</button>
+
+    <form id="docker-form" action="/scan" method="POST">
+        <!-- Input fields container (Vertical Layout) -->
+        <div id="input-container">
+            <input type="text" name="docker_image" placeholder="Enter GitHub URL" required>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button id="add-button">Add</button>
+            <button id="scan-button" type="submit">Scan Image</button>
+        </div>
     </form>
 </body>
 </html>
