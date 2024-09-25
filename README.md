@@ -150,3 +150,6 @@ python send_to_es.py
 
 1. 브라우저에서 `http://localhost:5601`로 접속
 2. Kibana 대시보드에서 Elasticsearch에 저장된 취약점 데이터를 시각화
+
+![image](https://github.com/user-attachments/assets/a389715e-31ab-458f-aa3b-7c47bd607a97)
+
