@@ -55,9 +55,17 @@ pip install flask
 ```
 
 ### 🏗️ Docker 빌드 & 실행 명령어
+설정해야 할 환경 변수 SENDER_EMAIL, EMAIL_PASSWORD
 ```bash
+docker rm -f mytrivy
+
 docker build -t mytrivy .
-docker run --rm -itd -p 5000:5000 --name mytrivy mytrivy
+
+docker run --rm -itd \
+-p 5000:5000 \
+-e SENDER_EMAIL= \
+-e EMAIL_PASSWORD= \
+--name mytrivy mytrivy
 ```
 
 
