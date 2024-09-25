@@ -64,7 +64,7 @@ docker rm -f mytrivy
 
 docker build -t mytrivy .
 
-docker run --rm -itd \
+docker run -itd \
 -p 5000:5000 \
 -e SENDER_EMAIL= \
 -e EMAIL_PASSWORD= \
