@@ -3,6 +3,7 @@
 #### 📦 웹 애플리케이션을 통해 Docker 이미지를 스캔하여 보안 취약점을 탐지하는 프로젝트
 
 <img src="images/demo.gif" style="height:500px"/>
+
 <img src="images/gmail.png"/>
 
 ## 📋 프로젝트 개요
@@ -85,84 +86,3 @@ docker-scan-app/
 └── README.md            # 프로젝트 설명 파일
 ```
 
-## 💡 파일 작성
-
-### app.py
-
-```py
-from flask import Flask, render_template, request, redirect, url_for
-import os
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/scan', methods=['POST'])
-def scan_image():
-    docker_image = request.form['docker_image']
-    # Trivy 명령어 실행
-    os.system(f'trivy image --format json -o result.json {docker_image}')
-
-    # 결과 파일 읽기
-    with open('result.json', 'r') as file:
-        scan_result = file.read()
-
-    return render_template('result.html', result=scan_result)
-
-if __name__ == '__main__':
-    app.run(debug=True)
-```
-
-### index.html
-
-```html
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Docker Image Scanner</title>
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="{{ url_for('static', filename='styles.css') }}"
-        />
-    </head>
-    <body>
-        <h1>Docker Image Scanner</h1>
-        <form action="/scan" method="POST">
-            <input
-                type="text"
-                name="docker_image"
-                placeholder="Enter Docker image or URL"
-            />
-            <button type="submit">Scan</button>
-        </form>
-    </body>
-</html>
-```
-
-### result.html
-
-```html
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Scan Result</title>
-    </head>
-    <body>
-        <h1>Scan Result</h1>
-        <ul>
-            {% for vuln in vulnerabilities %}
-            <li>
-                <strong>ID:</strong> {{ vuln['VulnerabilityID'] }} <br />
-                <strong>Severity:</strong> {{ vuln['Severity'] }} <br />
-                <strong>Title:</strong> {{ vuln['Title'] }} <br />
-                <strong>Description:</strong> {{ vuln['Description'] }} <br />
-            </li>
-            {% endfor %}
-        </ul>
-        <a href="/">Scan another image</a>
-    </body>
-</html>
-```
