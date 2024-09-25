@@ -1,10 +1,17 @@
 # 🚀 Docker Image Security Scanner 🌐
+## :raising_hand: 팀원
+
+| <img src="https://github.com/yuwankang.png" width="80"> | <img src="https://github.com/recoild.png" width="80"> | <img src="https://github.com/jeonguk0201.png" width="80"> | <img src="https://github.com/cshharry.png" width="80"> |
+|:---:|:---:|:---:|:---:|
+| [강유완](https://github.com/yuwankang) | [안재형](https://github.com/recoild) | [이정욱](https://github.com/jeonguk0201) | [조성현](https://github.com/cshharry) |
 
 #### 📦 웹 애플리케이션을 통해 Docker 이미지를 스캔하여 보안 취약점을 탐지하는 프로젝트
 
 <img src="images/demo.gif" style="height:500px"/>
 
 <img src="images/gmail.png"/>
+
+
 
 ## 📋 프로젝트 개요
 
