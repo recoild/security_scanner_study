@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivy Vulnerability Scanner</title>
+</head>
+<body>
+    <h1>Trivy Git Repository Vulnerability Scanner</h1>
+    <form action="/scan" method="POST">
+        <label for="email">Gmail Address:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="password">App Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <label for="repo_url">Git Repository URL:</label>
+        <input type="text" id="repo_url" name="repo_url" value="https://github.com/yuwankang/01.lab.git" required><br><br>
+
+        <button type="submit">Scan and Send Report</button>
+    </form>
+</body>
+</html>

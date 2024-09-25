@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Result</title>
+</head>
+<body>
+    <h1>Vulnerability Scan Result</h1>
+    {% if vulnerabilities %}
+        <ul>
+        {% for vuln in vulnerabilities %}
+            <li>{{ vuln.Title }}: {{ vuln.Severity }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No vulnerabilities found.</p>
+    {% endif %}
+</body>
+</html>

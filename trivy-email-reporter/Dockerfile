@@ -1,8 +1,8 @@
-# Dockerfile
+# Python 3.9-slim 이미지 사용
 FROM python:3.9-slim
 
 # 필요한 패키지 설치
-RUN pip install --no-cache-dir requests
+RUN pip install --no-cache-dir requests flask
 
 # Trivy 설치
 RUN apt-get update && apt-get install -y wget \
@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y wget \
     && tar zxvf trivy_0.55.2_Linux-64bit.tar.gz \
     && mv trivy /usr/local/bin/ \
     && rm trivy_0.55.2_Linux-64bit.tar.gz
-
 
 # 작업 디렉터리 설정
 WORKDIR /app
