@@ -1,9 +1,9 @@
 # 🚀 Docker Image Security Scanner 🌐
 
-
 #### 📦 웹 애플리케이션을 통해 Docker 이미지를 스캔하여 보안 취약점을 탐지하는 프로젝트
 
 <img src="images/demo.gif" style="height:500px"/>
+<img src="images/gmail.png"/>
 
 ## 📋 프로젝트 개요
 
@@ -22,20 +22,18 @@
 
 ### 🛠️ 주요 기능
 
-- 🔍 **Docker 이미지 취약점 스캔**: 사용자가 Docker 이미지 이름 또는 URL을 입력하여 보안 스캔을 수행합니다.
-- 📄 **스캔 결과 표시**: Trivy를 사용한 취약점 스캔 결과를 위험도 및 취약점 상세 정보와 함께 웹 페이지에 표시합니다.
+-   🔍 **Docker 이미지 취약점 스캔**: 사용자가 Docker 이미지 이름 또는 URL을 입력하여 보안 스캔을 수행합니다.
+-   📄 **스캔 결과 표시**: Trivy를 사용한 취약점 스캔 결과를 위험도 및 취약점 상세 정보와 함께 웹 페이지에 표시합니다.
 
+### 🔧 **기술 스택**
 
-
-###  🔧 **기술 스택**
-
-- 프로그래밍 언어: Python (Flask), Node.js (Express)
-- Trivy: 보안 스캐너.
-- Docker: 컨테이너 관리.
-- HTML/CSS/JavaScript: 프론트엔드.
-
+-   프로그래밍 언어: Python (Flask), Node.js (Express)
+-   Trivy: 보안 스캐너.
+-   Docker: 컨테이너 관리.
+-   HTML/CSS/JavaScript: 프론트엔드.
 
 ### 🏗️ Triby 설치
+
 ```bash
 sudo apt-get update
 sudo apt-get install wget apt-transport-https gnupg lsb-release -y
@@ -44,7 +42,9 @@ echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main |
 sudo apt-get update
 sudo apt-get install trivy -y
 ```
+
 ### 🏗️ Flask 설치
+
 ```bash
 # 가상 환경 생성 및 활성화
 python3 -m venv venv
@@ -55,7 +55,9 @@ pip install flask
 ```
 
 ### 🏗️ Docker 빌드 & 실행 명령어
+
 설정해야 할 환경 변수 SENDER_EMAIL, EMAIL_PASSWORD
+
 ```bash
 docker rm -f mytrivy
 
@@ -68,8 +70,8 @@ docker run --rm -itd \
 --name mytrivy mytrivy
 ```
 
-
 ## 📂 프로젝트 구조
+
 ```bash
 docker-scan-app/
 │
@@ -82,9 +84,11 @@ docker-scan-app/
 ├── result.json          # Trivy 스캔 결과 JSON 파일
 └── README.md            # 프로젝트 설명 파일
 ```
+
 ## 💡 파일 작성
 
 ### app.py
+
 ```py
 from flask import Flask, render_template, request, redirect, url_for
 import os
@@ -100,61 +104,65 @@ def scan_image():
     docker_image = request.form['docker_image']
     # Trivy 명령어 실행
     os.system(f'trivy image --format json -o result.json {docker_image}')
-    
+
     # 결과 파일 읽기
     with open('result.json', 'r') as file:
         scan_result = file.read()
-    
+
     return render_template('result.html', result=scan_result)
 
 if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-
-
 ### index.html
+
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Docker Image Scanner</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <h1>Docker Image Scanner</h1>
-    <form action="/scan" method="POST">
-        <input type="text" name="docker_image" placeholder="Enter Docker image or URL">
-        <button type="submit">Scan</button>
-    </form>
-</body>
+    <head>
+        <title>Docker Image Scanner</title>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ url_for('static', filename='styles.css') }}"
+        />
+    </head>
+    <body>
+        <h1>Docker Image Scanner</h1>
+        <form action="/scan" method="POST">
+            <input
+                type="text"
+                name="docker_image"
+                placeholder="Enter Docker image or URL"
+            />
+            <button type="submit">Scan</button>
+        </form>
+    </body>
 </html>
 ```
 
 ### result.html
+
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Scan Result</title>
-</head>
-<body>
-    <h1>Scan Result</h1>
-    <ul>
-        {% for vuln in vulnerabilities %}
-        <li>
-            <strong>ID:</strong> {{ vuln['VulnerabilityID'] }} <br>
-            <strong>Severity:</strong> {{ vuln['Severity'] }} <br>
-            <strong>Title:</strong> {{ vuln['Title'] }} <br>
-            <strong>Description:</strong> {{ vuln['Description'] }} <br>
-        </li>
-        {% endfor %}
-    </ul>
-    <a href="/">Scan another image</a>
-</body>
+    <head>
+        <title>Scan Result</title>
+    </head>
+    <body>
+        <h1>Scan Result</h1>
+        <ul>
+            {% for vuln in vulnerabilities %}
+            <li>
+                <strong>ID:</strong> {{ vuln['VulnerabilityID'] }} <br />
+                <strong>Severity:</strong> {{ vuln['Severity'] }} <br />
+                <strong>Title:</strong> {{ vuln['Title'] }} <br />
+                <strong>Description:</strong> {{ vuln['Description'] }} <br />
+            </li>
+            {% endfor %}
+        </ul>
+        <a href="/">Scan another image</a>
+    </body>
 </html>
-
 ```
-
-
-
