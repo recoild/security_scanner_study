@@ -86,3 +86,67 @@ docker-scan-app/
 └── README.md            # 프로젝트 설명 파일
 ```
 
+# 📊 Trivy로 컨테이너 이미지 스캔 및 Kibana 시각화
+
+---
+
+## 🛠️ 환경 설정 및 준비
+
+### 1. Elasticsearch 및 Kibana 설치
+```bash
+docker pull docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+docker pull docker.elastic.co/kibana/kibana:7.10.2
+```
+
+---
+
+## 🚀 Elasticsearch 및 Kibana 실행
+
+### 1. Elasticsearch 컨테이너 실행
+```bash
+docker run -d --name elasticsearch -p 9200:9200 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+```
+- 포트 **9200**에서 Elasticsearch 실행
+
+### 2. Kibana 컨테이너 실행
+```bash
+docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:7.10.2
+```
+- 포트 **5601**에서 Kibana 대시보드 실행 및 Elasticsearch 연결
+
+---
+
+
+## 📦 Trivy JSON 데이터를 Elasticsearch에 전송
+
+### 1. Python 스크립트 작성
+
+`send_to_es.py` 스크립트:
+```python
+import requests
+import json
+
+# Elasticsearch 인덱스 URL
+es_url = "http://localhost:9200/trivy-vulnerabilities/_doc/"
+
+# Trivy 결과 파일 로드
+with open("results.json", "r") as file:
+    data = json.load(file)
+
+# Elasticsearch에 데이터 전송
+for vuln in data['Results'][0]['Vulnerabilities']:
+    response = requests.post(es_url, json=vuln)
+    print(response.status_code, response.json())
+```
+
+### 2. 스크립트 실행
+```bash
+python send_to_es.py
+```
+
+---
+
+## 🎨 Kibana에서 시각화
+
+1. 브라우저에서 `http://localhost:5601`로 접속
+2. Kibana 대시보드에서 Elasticsearch에 저장된 취약점 데이터를 시각화
