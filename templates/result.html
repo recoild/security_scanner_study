@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scan Result</title>
+</head>
+<body>
+    <h1>Scan Result</h1>
+    <ul>
+        {% for vuln in vulnerabilities %}
+        <li>
+            <strong>ID:</strong> {{ vuln['VulnerabilityID'] }} <br>
+            <strong>Severity:</strong> {{ vuln['Severity'] }} <br>
+            <strong>Title:</strong> {{ vuln['Title'] }} <br>
+            <strong>Description:</strong> {{ vuln['Description'] }} <br>
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="/">Scan another image</a>
+</body>
+</html>

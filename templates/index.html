@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Docker Image Scanner</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Docker Image Security Scanner</h1>
+    <form action="/scan" method="POST">
+        <input type="text" name="docker_image" placeholder="Enter Docker image name or URL" required>
+        <button type="submit">Scan Image</button>
+    </form>
+</body>
+</html>
