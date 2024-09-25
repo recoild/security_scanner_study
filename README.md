@@ -44,15 +44,15 @@ sudo apt-get update
 sudo apt-get install trivy -y
 ```
 
-### 🏗️ Flask 설치
+### 🏗️ Python 패키지 설치
 
 ```bash
 # 가상 환경 생성 및 활성화
 python3 -m venv venv
 source venv/bin/activate
 
-# Flask 설치
-pip install flask
+# 패키지 설치
+pip install -r requirements.txt
 ```
 
 ### 🏗️ Docker 빌드 & 실행 명령어
